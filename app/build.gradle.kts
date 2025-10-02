@@ -2,7 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    id("org.jetbrains.kotlin.kapt")
+    id("androidx.room")
+    id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
 }
 
@@ -58,22 +59,23 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
-    // ViewModel utilities for Compose
+
+
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.9.4")
-    // If you need SavedStateHandle in your ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.9.4")
-    // For lifecycle-aware coroutine scopes in ViewModels
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.9.0")
-    // For LiveData integration (if used)
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.9.4")
 
-// Room with KSP
-    implementation("androidx.room:room-runtime:2.8.1")
-    kapt("androidx.room:room-compiler:2.8.1")
-    implementation("androidx.room:room-ktx:2.8.1")
+    val room_version = "2.6.1"
+    room {
+        schemaDirectory("$projectDir/schemas")
+    }
+    implementation("androidx.room:room-runtime:$room_version")
+    implementation("androidx.room:room-ktx:2.6.1")
+    ksp("androidx.room:room-compiler:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
 
-    implementation ("com.google.dagger:hilt-android:2.48")
-    kapt ("com.google.dagger:hilt-android-compiler:2.48")
-
-
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+    implementation("com.google.dagger:hilt-android:2.52")
+    ksp("com.google.dagger:hilt-android-compiler:2.52")
 }

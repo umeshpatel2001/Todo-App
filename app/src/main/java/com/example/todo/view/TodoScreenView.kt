@@ -30,12 +30,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.todo.ui.theme.TodoTheme
 import com.example.todo.viewModel.TaskViewModel
 
 @Composable
-fun TodoScreenView(viewModel: TaskViewModel = viewModel()) {
+fun TodoScreenView(viewModel: TaskViewModel = hiltViewModel()) {
     val todolist by viewModel.tasks.collectAsState()
 
     var newTodoTask by remember { mutableStateOf("") }
