@@ -27,4 +27,8 @@ class TaskViewModel : ViewModel() {
         }
     }
 
+    fun deleteTask(id: Int) {
+        _tasks.value = _tasks.value.filter { it.id != id }
+    }
+
 }

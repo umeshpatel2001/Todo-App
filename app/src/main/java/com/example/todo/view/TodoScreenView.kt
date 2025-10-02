@@ -11,8 +11,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -70,7 +74,7 @@ fun TodoScreenView(viewModel: TaskViewModel = viewModel()) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color.Gray)
+                    .background(Color.LightGray)
                     .padding(13.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -83,6 +87,10 @@ fun TodoScreenView(viewModel: TaskViewModel = viewModel()) {
                 Text(
                     text = task.title,
                 )
+                Spacer(modifier = Modifier.weight(1f))
+                IconButton(onClick = { viewModel.deleteTask(task.id) }) {
+                    Icon(Icons.Default.Delete, contentDescription = "Delete Task")
+                }
             }
             Spacer(modifier = Modifier.height(13.dp))
         }
