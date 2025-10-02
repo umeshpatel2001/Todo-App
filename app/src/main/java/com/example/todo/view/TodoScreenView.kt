@@ -35,7 +35,7 @@ import com.example.todo.viewModel.TaskViewModel
 
 @Composable
 fun TodoScreenView(viewModel: TaskViewModel = viewModel()) {
-    var todolist = viewModel.tasks.value
+    val todolist = viewModel.tasks.value
 
     var newTodoTask by remember { mutableStateOf("") }
 
