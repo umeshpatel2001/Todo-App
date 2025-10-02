@@ -1,29 +1,43 @@
 package com.example.todo.viewModel
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.example.todo.view.Todo
+import androidx.lifecycle.viewModelScope
+import com.example.todo.data.Task
+import com.example.todo.data.TaskRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class TaskViewModel : ViewModel() {
-    private val _tasks = mutableStateOf(
-        listOf(
-            Todo(1, "Learn Kotlin", false),
-            Todo(2, "Learn Jetpack Compose", false),
-            Todo(3, "Build To-Do App", false)
+@HiltViewModel
+class TaskViewModel @Inject constructor(
+    private val repository: TaskRepository
+) : ViewModel() {
+
+    val tasks: StateFlow<List<Task>> = repository.allTasks()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Lazily,
+            initialValue = emptyList()
         )
-    )
-    val tasks: State<List<Todo>> = _tasks
 
     fun addTask(title: String) {
-        val task = Todo(_tasks.value.size + 1, title, false)
-        _tasks.value = _tasks.value + task
+        viewModelScope.launch {
+            repository.addTask(Task(title = title))
+        }
     }
 
-    fun toggleTask(isDone: Boolean, id: Int) {
-        _tasks.value = _tasks.value.map {
-            if (it.id == id) it.copy(isDone = isDone)
-            else it
+    fun toggleTask(task: Task) {
+        viewModelScope.launch {
+            repository.updateTask(task.copy(isDone = !task.isDone))
+        }
+    }
+
+    fun deleteTask(task: Task) {
+        viewModelScope.launch {
+            repository.deleteTask(task)
         }
     }
 
