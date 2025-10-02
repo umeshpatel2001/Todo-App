@@ -20,6 +20,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,7 +36,7 @@ import com.example.todo.viewModel.TaskViewModel
 
 @Composable
 fun TodoScreenView(viewModel: TaskViewModel = viewModel()) {
-    val todolist = viewModel.tasks.value
+    val todolist by viewModel.tasks.collectAsState()
 
     var newTodoTask by remember { mutableStateOf("") }
 
@@ -81,14 +82,14 @@ fun TodoScreenView(viewModel: TaskViewModel = viewModel()) {
                 Checkbox(
                     checked = task.isDone,
                     onCheckedChange = { isChecked ->
-                        viewModel.toggleTask(isChecked, task.id)
+                        viewModel.toggleTask(task)
                     }
                 )
                 Text(
                     text = task.title,
                 )
                 Spacer(modifier = Modifier.weight(1f))
-                IconButton(onClick = { viewModel.deleteTask(task.id) }) {
+                IconButton(onClick = { viewModel.deleteTask(task) }) {
                     Icon(Icons.Default.Delete, contentDescription = "Delete Task")
                 }
             }

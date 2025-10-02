@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("org.jetbrains.kotlin.kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -59,9 +61,19 @@ dependencies {
     // ViewModel utilities for Compose
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.9.4")
     // If you need SavedStateHandle in your ViewModel
-    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.9.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.9.4")
     // For lifecycle-aware coroutine scopes in ViewModels
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.9.0")
     // For LiveData integration (if used)
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.9.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.9.4")
+
+// Room with KSP
+    implementation("androidx.room:room-runtime:2.8.1")
+    kapt("androidx.room:room-compiler:2.8.1")
+    implementation("androidx.room:room-ktx:2.8.1")
+
+    implementation ("com.google.dagger:hilt-android:2.48")
+    kapt ("com.google.dagger:hilt-android-compiler:2.48")
+
+
 }
