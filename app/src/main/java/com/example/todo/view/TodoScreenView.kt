@@ -98,8 +98,6 @@ fun TodoScreenView(viewModel: TaskViewModel = hiltViewModel()) {
     }
 }
 
-data class Todo(val id: Int, val title: String, val isDone: Boolean)
-
 @Preview(showBackground = true)
 @Composable
 fun TodoScreenPreview() {
