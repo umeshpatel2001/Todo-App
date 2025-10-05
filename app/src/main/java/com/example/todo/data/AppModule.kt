@@ -22,10 +22,4 @@ object AppModule {
             "task_database"
         ).build()
     }
-
-    @Provides
-    @Singleton
-    fun provideRepository(database: TaskDatabase): TaskRepository {
-        return TaskRepository(database.taskDao())
-    }
 }
