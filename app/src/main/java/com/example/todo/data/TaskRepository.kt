@@ -1,24 +1,25 @@
 package com.example.todo.data
 
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class TaskRepository (private val taskDao: TaskDao){
+class TaskRepository @Inject constructor(
+    private val taskDatabase: TaskDatabase
+) {
 
-    suspend fun addTask(task: Task){
-        taskDao.insertTask(task)
+    suspend fun addTask(task: Task) {
+        taskDatabase.taskDao().insertTask(task)
     }
 
-    suspend fun deleteTask(task: Task){
-        taskDao.deleteTask(task)
+    suspend fun deleteTask(task: Task) {
+        taskDatabase.taskDao().deleteTask(task)
     }
 
-    suspend fun updateTask(task: Task){
-        taskDao.updateTask(task)
+    suspend fun updateTask(task: Task) {
+        taskDatabase.taskDao().updateTask(task)
     }
 
     fun allTasks(): Flow<List<Task>> {
-        return taskDao.getAllTasks()
+        return taskDatabase.taskDao().getAllTasks()
     }
-
-
 }
